@@ -29,6 +29,11 @@ io.on("connection", (socket) => {
         "message",
         formatMessage(botName, `${user.username} has joined in the chat!`)
       );
+
+    io.to(user.room).emit("roomUsers", {
+      room: user.room,
+      users: getRoomUsers(user.room),
+    });
   });
 
   socket.on("chatMessage", (msg) => {
@@ -44,6 +49,11 @@ io.on("connection", (socket) => {
         formatMessage(botName, `${user.username} has left in the chat!`)
       );
     }
+
+    io.to(user.room).emit("roomUsers", {
+      room: user.room,
+      users: getRoomUsers(user.room),
+    });
   });
 });
 
